@@ -1,5 +1,5 @@
 import re
-from queries import create_table, create_appointment, find_appointments_by_date
+from helpers.queries import create_table, create_appointment, find_appointments_by_date, find_appointments_by_id, update_appointment, delete_appointment
 
 
 class AppointmentsController():
@@ -65,11 +65,65 @@ class AppointmentsController():
                  "success": True
             }
 
+    def update(self, data):
+        if data["event"] == "" or data["place"] == "" or data["time"] == "" or data["date"] == "":
+            return { 
+                "msg": "Please fill all required fields.",
+                "success": False 
+            }
+        else:
+            try:
+                time = AppointmentsController.format_time(data["time"])
+            except ValueError:
+                return { 
+                    "msg": "Could not parse time value.",
+                    "success": False 
+                }
 
-    def find_one(self, date):
+            self.cursor.execute(update_appointment, (
+                data["event"].title(),
+                data["place"].title(),
+                time,
+                data["date"],
+                data["other"],
+                data["id"]
+            ))
+
+            self.con.commit()
+
+            return { 
+                "msg": "Appointment updated successfully!",
+                "success": True
+            }
+
+    
+    def find_one(self, idx):
+        self.cursor.execute(find_appointments_by_id, (idx,))
+        appointments = self.cursor.fetchall()
+
+        return {
+            "appointments": appointments[0]
+        }
+
+
+    def find_many_by_date(self, date):
         self.cursor.execute(find_appointments_by_date, (date,))
         appointments = self.cursor.fetchall()
 
         return {
             "appointments": appointments
+        }
+
+
+    def find_many_per_time_period(self, period):
+        pass
+
+
+    def delete(self, idx):
+        self.cursor.execute(delete_appointment, (idx,))
+        self.con.commit()
+
+        return {
+            "msg": "Appointment deleted successfully!",
+            "success": True
         }
