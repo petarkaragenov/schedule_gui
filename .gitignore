@@ -1,5 +1,12 @@
 __pycache__
 
 test.py
+dist
+build
 
+*.exe
+*.spec
 *.db
+*.ico
+
+.env
