@@ -23,4 +23,8 @@ find_appointments_by_date = "SELECT * FROM appointments WHERE date(date) = ?"
 
 find_appointments_by_id = "SELECT * FROM appointments WHERE id = ?"
 
+find_appointments_by_period = "SELECT * FROM appointments WHERE date(date) BETWEEN ? and ?"
+
+find_all = "SELECT * FROM appointments"
+
 delete_appointment = "DELETE FROM appointments WHERE id = ?"

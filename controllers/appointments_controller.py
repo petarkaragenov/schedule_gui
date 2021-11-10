@@ -1,5 +1,5 @@
 import re
-from helpers.queries import create_table, create_appointment, find_appointments_by_date, find_appointments_by_id, update_appointment, delete_appointment
+from helpers.queries import create_table, create_appointment, find_appointments_by_date, find_appointments_by_id, find_appointments_by_period, find_all, update_appointment, delete_appointment
 
 
 class AppointmentsController():
@@ -115,8 +115,22 @@ class AppointmentsController():
         }
 
 
-    def find_many_per_time_period(self, period):
-        pass
+    def find_many_per_time_period(self, start, end):
+        self.cursor.execute(find_appointments_by_period, (start, end,))
+        appointments = self.cursor.fetchall()
+
+        return {
+            "appointments": appointments
+        }
+
+
+    def find_all(self):
+        self.cursor.execute(find_all)
+        appointments = self.cursor.fetchall()
+
+        return {
+            "appointments": appointments
+        }
 
 
     def delete(self, idx):

@@ -1,6 +1,7 @@
 import PySimpleGUI as sg
-from helpers.defaults import m, d, y, empty_table
+from helpers.defaults import m, d, y, empty_table, table_headings, col_widths
 from views.find import find_appointments_by_date, find_appointments_by_id
+from views.find_more import find_more
 from views.new import new_appointment
 from views.delete import delete_appointment
 
@@ -32,7 +33,7 @@ def main():
 
     col_left_bottom = [
         [
-            sg.Table(values=empty_table, headings=["Event", "Place", "Time", "Date", "Additional"], key="-SCHEDULE-", col_widths=[8, 16, 5, 10, 20], auto_size_columns=False, enable_events=True, num_rows=8, pad=(5, 10))
+            sg.Table(values=empty_table, headings=table_headings, key="-SCHEDULE-", col_widths=col_widths, auto_size_columns=False, enable_events=True, num_rows=8, pad=(5, 10))
         ]
     ]
 
@@ -58,6 +59,9 @@ def main():
         event, values = window.read()
         if event == "Close" or event == sg.WINDOW_CLOSED:
             break
+
+        elif event == "Find More":
+            find_more()
 
         elif event == "New":
             new_appointment()
