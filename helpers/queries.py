@@ -1,5 +1,3 @@
-
-
 create_table = '''
     CREATE TABLE appointments (
         id INTEGER PRIMARY KEY AUTOINCREMENT,

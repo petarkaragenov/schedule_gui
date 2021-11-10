@@ -1,5 +1,6 @@
 import PySimpleGUI as sg
-from helpers.defaults import today, m, d, y
+from helpers.defaults import today
+from helpers.elements import Calendar
 from controllers.appointments_controller import AppointmentsController
 from db.db import con, cursor
 
@@ -18,7 +19,7 @@ def new_appointment(d=None):
             [sg.In(d["event"], key="-EVENT-", size=(25, 1))],
             [sg.In(d["place"], key="-PLACE-", size=(25, 1))],
             [sg.In(d["time"], key="-TIME-", size=(25, 1))],
-            [sg.In(d["date"], key="-DATE-", size=(20, 1)), sg.CalendarButton("", target="-DATE-", format="%Y-%m-%d", default_date_m_d_y=(m, d, y), image_filename="files/calendar.png", no_titlebar=False,  button_color=(sg.theme_background_color(), sg.theme_background_color()), border_width=0)],
+            [sg.In(d["date"], key="-DATE-", size=(20, 1)), Calendar("-DATE-")],
             [sg.In(d["other"], key="-OTHER-", size=(25, 1))]
         ]
     else:
@@ -26,7 +27,7 @@ def new_appointment(d=None):
             [sg.In(key="-EVENT-", size=(25, 1))],
             [sg.In(key="-PLACE-", size=(25, 1))],
             [sg.In(key="-TIME-", size=(25, 1))],
-            [sg.In(today.strftime("%Y-%m-%d"), key="-DATE-", size=(20, 1)), sg.CalendarButton("", target="-DATE-", format="%Y-%m-%d", default_date_m_d_y=(m, d, y), image_filename="files/calendar.png", no_titlebar=False,  button_color=(sg.theme_background_color(), sg.theme_background_color()), border_width=0)],
+            [sg.In(today.strftime("%Y-%m-%d"), key="-DATE-", size=(20, 1)), Calendar("-DATE-")],
             [sg.In(key="-OTHER-", size=(25, 1))]
         ]
 

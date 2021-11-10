@@ -1,5 +1,6 @@
 import PySimpleGUI as sg
-from helpers.defaults import m, d, y, empty_table, table_headings, col_widths
+from helpers.defaults import empty_table
+from helpers.elements import ScheduleTable, Button, Calendar
 from views.find import find_appointments_by_date, find_appointments_by_id
 from views.find_more import find_more
 from views.new import new_appointment
@@ -23,7 +24,7 @@ def main():
         [
             sg.Text("Pick a Date:"), 
             sg.In(key="-DATE-", enable_events=True, size=(45, 1)),
-            sg.CalendarButton("", target="-DATE-", button_color=(sg.theme_background_color(), sg.theme_background_color()), image_filename="files/calendar.png", border_width=0, default_date_m_d_y=(m, d, y), no_titlebar=False, format=("%Y-%m-%d")),
+            Calendar("-DATE-"),
             sg.Button("Find", size=(10, 1)),
         ]
     ]
@@ -32,17 +33,15 @@ def main():
 
 
     col_left_bottom = [
-        [
-            sg.Table(values=empty_table, headings=table_headings, key="-SCHEDULE-", col_widths=col_widths, auto_size_columns=False, enable_events=True, num_rows=8, pad=(5, 10))
-        ]
+        ScheduleTable("-SCHEDULE-", 8)
     ]
 
     col_right_bottom = [
-        [sg.Button("New", size=(10, 1))],
-        [sg.Button("Update", size=(10, 1))],
-        [sg.Button("Delete", size=(10, 1))],
-        [sg.Button("Clear", size=(10, 1))],
-        [sg.Button("Close", size=(10, 1))]
+        [Button("New")],
+        [Button("Update")],
+        [Button("Delete")],
+        [Button("Clear")],
+        [Button("Close")]
     ]
 
 

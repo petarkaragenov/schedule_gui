@@ -2,7 +2,8 @@ import PySimpleGUI as sg
 from datetime import datetime, timedelta
 import calendar
 from db.db import con, cursor
-from helpers.defaults import time_periods, empty_table, table_headings, col_widths
+from helpers.defaults import time_periods
+from helpers.elements import ScheduleTable, Button
 from controllers.appointments_controller import AppointmentsController
 
 
@@ -35,12 +36,13 @@ def find_more():
             num_of_days = calendar.monthrange(year, month)[1]
             month_start = datetime(year, month, 1).strftime("%Y-%m-%d")
             month_end = datetime(year, month, num_of_days).strftime("%Y-%m-%d")
+
             return [month_start, month_end]
 
 
     layout = [
-        [sg.Text("Pick a time period:"), sg.Combo(time_periods, default_value="This Week", key="-PERIOD-"), sg.B("Find"), sg.B("Close")],
-        [sg.Table(empty_table, headings=table_headings, key="-SCHEDULE-", col_widths=col_widths, auto_size_columns=False, enable_events=True, num_rows=16, pad=(5, 10))]
+        [sg.Text("Pick a time period:"), sg.Combo(time_periods, default_value="This Week", key="-PERIOD-", size=(31, 1)), Button("Find"), Button("Close")],
+        ScheduleTable("-SCHEDULE-", 16)   
     ]
 
 
